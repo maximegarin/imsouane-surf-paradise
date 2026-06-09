@@ -1,0 +1,103 @@
+@use "../../styles/variables" as *;
+
+.paiement {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: $espace-xl $espace-md;
+}
+
+.message {
+  text-align: center;
+  padding: $espace-xl;
+  color: $gris-doux;
+  font-style: italic;
+}
+
+.titre {
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  color: $terracotta;
+  margin-bottom: $espace-md;
+  text-align: center;
+}
+
+.bandeauDemo {
+  background: rgba($sable-ocre, 0.2);
+  border: 1px solid rgba($sable-ocre, 0.5);
+  border-radius: 6px;
+  padding: $espace-sm $espace-md;
+  font-size: 0.85rem;
+  color: $terracotta-fonce;
+  margin-bottom: $espace-lg;
+  text-align: center;
+}
+
+.montant {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: $espace-md;
+  background: $blanc-pur;
+  border-radius: 6px;
+  margin-bottom: $espace-md;
+
+  strong {
+    font-family: $font-titre;
+    font-size: 1.8rem;
+    color: $terracotta;
+  }
+}
+
+.carte {
+  display: flex;
+  flex-direction: column;
+  gap: $espace-md;
+  padding: $espace-md;
+  background: $blanc-pur;
+  border-radius: 6px;
+}
+
+.ligne { display: flex; gap: $espace-md; }
+
+.label {
+  display: flex;
+  flex-direction: column;
+  gap: $espace-xs;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: $gris-doux;
+  flex: 1;
+}
+
+.input {
+  padding: $espace-sm;
+  border: 1px solid rgba($encre-marine, 0.15);
+  border-radius: 3px;
+  font-family: $font-corps;
+  font-size: 1rem;
+  &:focus { outline: none; border-color: $terracotta; }
+}
+
+.erreur { color: #C0392B; font-size: 0.9rem; }
+
+.bouton {
+  padding: $espace-sm;
+  border: none;
+  border-radius: 3px;
+  background: $terracotta;
+  color: $blanc-pur;
+  font-family: $font-corps;
+  font-size: 1.05rem;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: background-color $transition-douce;
+  &:hover:not(:disabled) { background: $terracotta-fonce; }
+  &:disabled { opacity: 0.6; cursor: default; }
+}
+
+.note {
+  margin-top: $espace-md;
+  font-size: 0.8rem;
+  color: $gris-doux;
+  text-align: center;
+}

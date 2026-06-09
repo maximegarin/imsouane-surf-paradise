@@ -1,0 +1,78 @@
+@use "../../../styles/variables" as *;
+
+.login {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $espace-md;
+}
+
+.form {
+  width: 100%;
+  max-width: 380px;
+  display: flex;
+  flex-direction: column;
+  gap: $espace-md;
+  padding: $espace-lg;
+  background-color: $blanc-pur;
+  border-radius: 4px;
+  box-shadow: 0 12px 40px rgba($encre-marine, 0.07);
+}
+
+.titre {
+  font-size: 1.8rem;
+  color: $terracotta;
+  text-align: center;
+}
+
+.label {
+  display: flex;
+  flex-direction: column;
+  gap: $espace-xs;
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: $gris-doux;
+}
+
+.input {
+  padding: $espace-sm;
+  border: 1px solid rgba($encre-marine, 0.15);
+  border-radius: 3px;
+  font-family: $font-corps;
+  font-size: 1rem;
+  color: $encre-marine;
+
+  &:focus {
+    outline: none;
+    border-color: $terracotta;
+  }
+}
+
+.erreur {
+  color: $terracotta-fonce;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.bouton {
+  padding: $espace-sm;
+  border: none;
+  border-radius: 3px;
+  background-color: $terracotta;
+  color: $blanc-pur;
+  font-family: $font-corps;
+  font-size: 1rem;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: background-color $transition-douce;
+
+  &:hover:not(:disabled) {
+    background-color: $terracotta-fonce;
+  }
+  &:disabled {
+    opacity: 0.6;
+    cursor: default;
+  }
+}

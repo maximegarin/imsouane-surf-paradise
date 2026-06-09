@@ -1,0 +1,318 @@
+### Fichier de test de l'API — extension VS Code "REST Client" (humao.rest-client)
+
+@base = http://localhost:3000
+
+### Login admin -> renvoie un token JWT
+# @name login
+POST {{base}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "superadmin@imsouane-surf.test",
+  "password": "MonMotDePasse123"
+}
+
+### Variable qui récupère le token de la réponse de login ci-dessus
+@token = {{login.response.body.token}}
+
+### Inscription d'un ADMIN (réservé au super_admin connecté) -> 201
+POST {{base}}/api/auth/register
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "nom": "admin",
+  "email": "admin@imsouane-surf.test",
+  "password": "AdminPere2026",
+  "role": "admin"
+}
+
+### Inscription d'un GÉRANT -> 201
+POST {{base}}/api/auth/register
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "nom": "gerant",
+  "email": "gerant@imsouane-surf.test",
+  "password": "GerantSurPlace2026",
+  "role": "gestionnaire"
+}
+
+### Sécurité : inscription SANS token -> 401
+POST {{base}}/api/auth/register
+Content-Type: application/json
+
+{
+  "nom": "pirate",
+  "email": "pirate@imsouane-surf.test",
+  "password": "motdepasse123",
+  "role": "super_admin"
+}
+
+### Lister toutes les chambres
+GET {{base}}/api/chambres
+
+### Récupérer une chambre par id
+GET {{base}}/api/chambres/7
+
+### Créer une chambre (POST) — protégé : nécessite un token admin
+POST {{base}}/api/chambres
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "nom": "Chambre Test",
+  "slug": "chambre-test",
+  "capacite": 2,
+  "surface_m2": 18,
+  "prix_base": 65.00,
+  "description": "Chambre de test créée via l'API.",
+  "vue": "jardin",
+  "terrasse": false,
+  "composition_lits": "1 lit double",
+  "actif": true
+}
+
+### Tester la validation : prix négatif -> doit renvoyer 400
+POST {{base}}/api/chambres
+Content-Type: application/json
+
+{
+  "nom": "Chambre Invalide",
+  "slug": "chambre-invalide",
+  "capacite": 2,
+  "prix_base": -10
+}
+
+### Modifier une chambre (PUT) — protégé : remplace l'id 8 par l'id créé
+PUT {{base}}/api/chambres/8
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "nom": "Chambre Test Modifiée",
+  "slug": "chambre-test",
+  "capacite": 3,
+  "surface_m2": 20,
+  "prix_base": 72.00,
+  "description": "Description mise à jour.",
+  "vue": "mer",
+  "terrasse": true,
+  "composition_lits": "1 lit double + 1 simple",
+  "actif": true
+}
+
+### Supprimer une chambre (DELETE) — protégé
+DELETE {{base}}/api/chambres/11
+Authorization: Bearer {{token}}
+
+### Tester la protection FK : supprimer Tamsrite (id 7, liée à une réservation) -> 409
+DELETE {{base}}/api/chambres/7
+Authorization: Bearer {{token}}
+
+### Tester la sécurité : créer une chambre SANS token -> 401 Token manquant
+POST {{base}}/api/chambres
+Content-Type: application/json
+
+{
+  "nom": "Sans Token",
+  "slug": "sans-token",
+  "capacite": 2,
+  "prix_base": 50
+}
+
+###############################################
+###            RÉSERVATIONS                 ###
+###############################################
+
+### Créer une réservation (PUBLIC) — 2 chambres + option ménage
+POST {{base}}/api/reservations
+Content-Type: application/json
+
+{
+  "client": {
+    "nom": "Martin",
+    "prenom": "Léa",
+    "email": "lea.martin@example.com",
+    "telephone": "+33611223344",
+    "consentement_marketing": true
+  },
+  "date_arrivee": "2026-03-10",
+  "date_depart": "2026-03-14",
+  "nb_personnes": 3,
+  "chambres": [4, 5],
+  "prestations": [
+    { "prestation_id": 1, "quantite": 2 }
+  ]
+}
+
+### Tester l'indisponibilité : mêmes dates, une chambre déjà prise -> 409
+POST {{base}}/api/reservations
+Content-Type: application/json
+
+{
+  "client": {
+    "nom": "Doublon",
+    "prenom": "Test",
+    "email": "doublon@example.com"
+  },
+  "date_arrivee": "2026-03-12",
+  "date_depart": "2026-03-15",
+  "nb_personnes": 2,
+  "chambres": [4]
+}
+
+### Réservation de test sur dates FUTURES (pour tester la dispo dans le tunnel)
+POST {{base}}/api/reservations
+Content-Type: application/json
+
+{
+  "client": { "nom": "Test", "prenom": "Dispo", "email": "test-dispo@example.com" },
+  "date_arrivee": "2026-07-15",
+  "date_depart": "2026-07-20",
+  "nb_personnes": 2,
+  "chambres": [7]
+}
+
+### Estimation de prix (PUBLIC, ne crée rien) — récap live du tunnel
+POST {{base}}/api/reservations/estimation
+Content-Type: application/json
+
+{
+  "date_arrivee": "2026-03-10",
+  "date_depart": "2026-03-14",
+  "chambres": [4, 5],
+  "prestations": [
+    { "prestation_id": 1, "quantite": 2 }
+  ]
+}
+
+### Suivi d'une réservation par son token (PUBLIC) — remplace par le token reçu
+GET {{base}}/api/reservations/suivi/b7e8c1a2-4f5d-4a3b-9c2e-1d6f7a8b9c0d
+
+
+### Lister toutes les réservations (back-office) — token admin requis
+GET {{base}}/api/reservations
+Authorization: Bearer {{token}}
+
+### Détail d'une réservation (back-office)
+GET {{base}}/api/reservations/2
+Authorization: Bearer {{token}}
+
+### Confirmer une réservation : marquer l'acompte payé (back-office)
+PATCH {{base}}/api/reservations/2/statut
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{ "statut": "acompte_paye" }
+
+### Marquer une réservation soldée
+PATCH {{base}}/api/reservations/2/statut
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{ "statut": "soldee" }
+
+### Annuler une réservation (libère les dates pour d'autres clients)
+PATCH {{base}}/api/reservations/3/statut
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{ "statut": "annulee" }
+
+### Statut invalide -> 400 (Zod bloque)
+PATCH {{base}}/api/reservations/2/statut
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{ "statut": "nimporte_quoi" }
+
+###############################################
+###            SAISONS                      ###
+###############################################
+
+### Lister les saisons (public)
+GET {{base}}/api/saisons
+
+### Créer une saison (super_admin / admin)
+POST {{base}}/api/saisons
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "nom": "Vacances de Pâques",
+  "date_debut": "2026-04-04",
+  "date_fin": "2026-04-19",
+  "coefficient": 1.4
+}
+
+### Modifier une saison
+PUT {{base}}/api/saisons/1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "nom": "Haute saison",
+  "date_debut": "2025-09-01",
+  "date_fin": "2026-05-31",
+  "coefficient": 1.35
+}
+
+### Supprimer une saison
+DELETE {{base}}/api/saisons/6
+Authorization: Bearer {{token}}
+
+###############################################
+###            PRESTATIONS                  ###
+###############################################
+
+### Lister les prestations (public)
+GET {{base}}/api/prestations
+
+### Créer une prestation (futur pack surf)
+POST {{base}}/api/prestations
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "nom": "Pack surf découverte",
+  "description": "3 cours de surf avec moniteur + location matériel.",
+  "prix": 120.00,
+  "categorie": "pack_surf",
+  "actif": true
+}
+
+### Modifier une prestation
+PUT {{base}}/api/prestations/1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "nom": "Ménage pendant le séjour",
+  "description": "Service de ménage quotidien.",
+  "prix": 7.00,
+  "categorie": "menage",
+  "actif": true
+}
+
+### Supprimer une prestation (409 si utilisée par une réservation)
+DELETE {{base}}/api/prestations/1
+Authorization: Bearer {{token}}
+
+###############################################
+###            PAIEMENTS (simulé)           ###
+###############################################
+
+### 1. Initier le paiement de l'acompte (public) — remplace 2 par l'id d'une résa
+POST {{base}}/api/paiements/acompte/2
+
+### 1bis. Ou payer la totalité en ligne
+POST {{base}}/api/paiements/total/2
+
+### 2. Confirmer le paiement (SIMULE le webhook Stripe) — remplace 1 par le paiement_id reçu
+POST {{base}}/api/paiements/1/confirmer
+
+### 3. Historique des paiements d'une réservation (back-office)
+GET {{base}}/api/paiements/reservation/2
+Authorization: Bearer {{token}}

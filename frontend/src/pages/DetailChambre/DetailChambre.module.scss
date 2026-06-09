@@ -1,0 +1,254 @@
+@use "../../styles/variables" as *;
+
+.detail {
+  max-width: $largeur-max;
+  margin: 0 auto;
+  padding: $espace-lg $espace-md $espace-xl;
+}
+
+.message {
+  text-align: center;
+  padding: $espace-xl;
+  color: $gris-doux;
+  font-style: italic;
+}
+
+.retour {
+  display: inline-block;
+  margin-bottom: $espace-md;
+  font-size: 0.9rem;
+  color: $gris-doux;
+  &:hover { color: $terracotta; }
+}
+
+// =================== En-tête ===================
+.entete {
+  margin-bottom: $espace-md;
+}
+
+.nom {
+  font-size: clamp(2.2rem, 5vw, 3.8rem);
+  color: $encre-marine;
+  margin-bottom: $espace-xs;
+}
+
+.infos {
+  font-size: 0.9rem;
+  letter-spacing: 0.04em;
+  color: $gris-doux;
+}
+
+// =================== Carrousel ===================
+// Une photo à la fois, dots cliquables dessous. Clic sur la photo -> lightbox.
+.carrousel {
+  position: relative;            // ancre les flèches par-dessus la photo
+  margin-bottom: $espace-lg;
+}
+
+// flèches précédent / suivant
+.fleche {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  background: rgba($blanc-pur, 0.9);
+  color: $encre-marine;
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba($encre-marine, 0.18);
+  transition: background-color $transition-douce, transform $transition-douce;
+  &:hover { background: $blanc-pur; transform: translateY(-50%) scale(1.08); }
+}
+
+.flecheGauche { left: $espace-sm; }
+.flecheDroite { right: $espace-sm; }
+
+.photoPrincipale {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  overflow: hidden;
+  border-radius: 14px;
+  aspect-ratio: 16 / 9;          // hauteur modérée (moins haut que le 3/2 précédent)
+  max-height: 60vh;
+
+  .img { transition: transform $transition-douce; }
+  &:hover .img { transform: scale(1.04); }
+}
+
+.img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+// dots de pagination, centrés sous la photo
+.dots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.55rem;
+  margin-top: $espace-sm;
+}
+
+.dot {
+  width: 9px;
+  height: 9px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: rgba($encre-marine, 0.25);
+  cursor: pointer;
+  transition: background-color $transition-douce, transform $transition-douce;
+  &:hover { background: rgba($encre-marine, 0.5); }
+}
+
+.dotActif {
+  background: $terracotta;
+  transform: scale(1.25);
+}
+
+// =================== Contenu + carte réservation ===================
+.colonnes {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: $espace-xl;
+  align-items: start;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+    gap: $espace-lg;
+  }
+}
+
+.description {
+  font-size: 1.15rem;
+  line-height: 1.9;
+  color: $encre-marine;
+  margin-bottom: $espace-lg;
+}
+
+.sousTitre {
+  font-size: 1.4rem;
+  color: $encre-marine;
+  margin-bottom: $espace-md;
+}
+
+// caractéristiques en grille label / valeur
+.caracsListe {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $espace-md;
+
+  @media (max-width: 480px) { grid-template-columns: 1fr; }
+}
+
+.caracItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding-bottom: $espace-sm;
+  border-bottom: 1px solid rgba($encre-marine, 0.1);
+}
+
+.caracLabel {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: $gris-doux;
+}
+
+.caracValeur {
+  font-size: 1.05rem;
+  color: $encre-marine;
+}
+
+// --- Carte de réservation (sticky sur desktop) ---
+.carteResa {
+  position: sticky;
+  top: calc(#{$hauteur-header} + #{$espace-md});
+  background: $blanc-pur;
+  border: 1px solid rgba($encre-marine, 0.1);
+  border-radius: 16px;
+  padding: $espace-md;
+  box-shadow: 0 16px 40px rgba($encre-marine, 0.08);
+
+  @media (max-width: 900px) {
+    position: static;   // plus de sticky en colonne unique
+  }
+}
+
+.prix {
+  font-size: 1rem;
+  color: $gris-doux;
+  margin-bottom: $espace-md;
+
+  strong {
+    font-family: $font-titre;
+    font-size: 2rem;
+    color: $encre-marine;
+  }
+}
+
+.prixLabel {
+  display: block;
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  color: $gris-doux;
+  margin-bottom: 0.1rem;
+}
+
+.prixUnite {
+  font-size: 0.95rem;
+}
+
+.bouton {
+  display: block;
+  width: 100%;
+  padding: $espace-sm $espace-lg;
+  background-color: $terracotta;
+  color: $blanc-pur;
+  border: none;
+  border-radius: $radius-bouton;
+  font-family: $font-corps;
+  font-size: 1rem;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: background-color $transition-douce;
+  &:hover { background-color: $terracotta-fonce; color: $blanc-pur; }
+}
+
+.boutonAjoute {
+  background-color: $vert-eucalyptus;
+  &:hover { background-color: $vert-eucalyptus; opacity: 0.85; }
+}
+
+.note {
+  margin-top: $espace-sm;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: $gris-doux;
+  text-align: center;
+}
+
+.lienResa {
+  margin-top: $espace-sm;
+  text-align: center;
+  font-size: 0.92rem;
+  a { color: $terracotta; &:hover { color: $terracotta-fonce; } }
+}

@@ -1,0 +1,102 @@
+@use "../../../styles/variables" as *;
+
+.dashboard {
+  max-width: $largeur-max;
+  margin: 0 auto;
+  padding: $espace-lg $espace-md;
+}
+
+.entete {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: $espace-lg;
+}
+
+.titre {
+  font-size: 2.2rem;
+  color: $terracotta;
+}
+
+.sousTitre {
+  font-size: 0.85rem;
+  color: $gris-doux;
+}
+
+.deconnexion {
+  padding: $espace-xs $espace-sm;
+  border: 1px solid rgba($encre-marine, 0.2);
+  border-radius: 3px;
+  background: transparent;
+  color: $encre-marine;
+  cursor: pointer;
+  transition: all $transition-douce;
+  &:hover { background: $encre-marine; color: $blanc-pur; }
+}
+
+.message {
+  color: $gris-doux;
+  font-style: italic;
+}
+
+.tableWrap {
+  overflow-x: auto;   // scroll horizontal sur mobile si le tableau est large
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background: $blanc-pur;
+  font-size: 0.9rem;
+
+  th, td {
+    padding: $espace-sm;
+    text-align: left;
+    border-bottom: 1px solid rgba($encre-marine, 0.08);
+    vertical-align: top;
+  }
+
+  th {
+    font-family: $font-corps;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: $gris-doux;
+  }
+}
+
+.email {
+  font-size: 0.78rem;
+  color: $gris-doux;
+}
+
+// pastille de statut colorée
+.badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+.en_attente   { background: rgba($sable-ocre, 0.25);     color: $terracotta-fonce; }
+.acompte_paye { background: rgba($vert-eucalyptus, 0.2);  color: $vert-eucalyptus; }
+.soldee       { background: rgba($vert-eucalyptus, 0.35); color: $vert-eucalyptus; }
+.annulee      { background: rgba($encre-marine, 0.1);     color: $gris-doux; }
+
+.actions {
+  display: flex;
+  gap: $espace-xs;
+  flex-wrap: wrap;
+
+  button {
+    padding: 4px 10px;
+    border: 1px solid rgba($terracotta, 0.4);
+    border-radius: 3px;
+    background: transparent;
+    color: $terracotta;
+    font-size: 0.78rem;
+    cursor: pointer;
+    transition: all $transition-douce;
+    &:hover { background: $terracotta; color: $blanc-pur; }
+  }
+}

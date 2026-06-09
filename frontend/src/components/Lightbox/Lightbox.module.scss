@@ -1,0 +1,68 @@
+@use "../../styles/variables" as *;
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: rgba($encre-marine, 0.88);   // ombre transparente
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fondu 0.3s ease;
+}
+
+@keyframes fondu {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.image {
+  max-width: 88vw;
+  max-height: 86vh;
+  object-fit: contain;
+  border-radius: 0;                         // photo nette (esprit portfolio)
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+}
+
+.fermer {
+  position: absolute;
+  top: $espace-lg;
+  right: $espace-lg;
+  background: none;
+  border: none;
+  color: $blanc-vieilli;
+  font-size: 1.6rem;
+  cursor: pointer;
+  opacity: 0.8;
+  &:hover { opacity: 1; }
+}
+
+.fleche {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: $blanc-vieilli;
+  font-size: 3rem;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0.7;
+  padding: $espace-sm;
+  transition: opacity $transition-douce;
+  &:hover { opacity: 1; }
+}
+
+.gauche { left: $espace-md; }
+.droite { right: $espace-md; }
+
+.compteur {
+  position: absolute;
+  bottom: $espace-lg;
+  left: 50%;
+  transform: translateX(-50%);
+  color: $blanc-vieilli;
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  opacity: 0.8;
+}

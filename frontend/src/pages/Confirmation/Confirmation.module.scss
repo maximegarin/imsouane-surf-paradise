@@ -1,0 +1,96 @@
+@use "../../styles/variables" as *;
+
+.confirmation {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: $espace-xl $espace-md;
+  text-align: center;
+}
+
+.message {
+  text-align: center;
+  padding: $espace-xl;
+  color: $gris-doux;
+  font-style: italic;
+}
+
+.salut {
+  font-size: 3rem;
+  margin-bottom: $espace-sm;
+}
+
+.titre {
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  color: $terracotta;
+  margin-bottom: $espace-sm;
+}
+
+.intro {
+  color: $gris-doux;
+  font-size: 1.05rem;
+  margin-bottom: $espace-lg;
+}
+
+.carte {
+  text-align: left;
+  background: $blanc-pur;
+  border-radius: 6px;
+  padding: $espace-md;
+  margin-bottom: $espace-md;
+  display: flex;
+  flex-direction: column;
+  gap: $espace-xs;
+}
+
+.ligne {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.95rem;
+  color: $encre-marine;
+}
+
+.ligneTotal {
+  display: flex;
+  justify-content: space-between;
+  padding-top: $espace-sm;
+  margin-top: $espace-xs;
+  border-top: 1px solid rgba($encre-marine, 0.1);
+  font-family: $font-titre;
+  font-size: 1.15rem;
+}
+
+.ligneAcompte {
+  display: flex;
+  justify-content: space-between;
+  padding: $espace-sm;
+  background: rgba($sable-ocre, 0.15);
+  border-radius: 4px;
+  font-weight: 600;
+  color: $terracotta-fonce;
+}
+
+.note {
+  font-size: 0.85rem;
+  color: $gris-doux;
+  margin-bottom: $espace-md;
+}
+
+.bouton {
+  display: inline-block;
+  padding: $espace-sm $espace-lg;
+  background: $terracotta;
+  color: $blanc-pur;
+  border-radius: 3px;
+  font-size: 1rem;
+  letter-spacing: 0.05em;
+  transition: background-color $transition-douce;
+  &:hover { background: $terracotta-fonce; color: $blanc-pur; }
+}
+
+.retour {
+  display: block;
+  margin-top: $espace-lg;
+  font-size: 0.9rem;
+  color: $gris-doux;
+  &:hover { color: $terracotta; }
+}

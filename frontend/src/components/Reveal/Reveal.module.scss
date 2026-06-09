@@ -1,0 +1,14 @@
+@use "../../styles/variables" as *;
+
+// état initial : invisible et légèrement décalé vers le bas
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.9s ease, transform 0.9s ease;
+}
+
+// état révélé : visible, à sa place
+.visible {
+  opacity: 1;
+  transform: translateY(0);
+}

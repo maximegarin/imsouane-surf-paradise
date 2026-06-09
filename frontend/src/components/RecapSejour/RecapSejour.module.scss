@@ -1,0 +1,131 @@
+@use "../../styles/variables" as *;
+
+.recap {
+  position: sticky;
+  top: $espace-lg;
+  align-self: start;
+  background: $blanc-pur;
+  border: 1px solid rgba($encre-marine, 0.08);
+  border-radius: 6px;
+  padding: $espace-md;
+}
+
+.titre {
+  font-size: 1.4rem;
+  color: $terracotta;
+  margin-bottom: $espace-sm;
+}
+
+.vide {
+  color: $gris-doux;
+  font-style: italic;
+  font-size: 0.95rem;
+}
+
+.dates {
+  font-size: 0.95rem;
+  color: $encre-marine;
+  margin-bottom: $espace-sm;
+}
+
+.lignes {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: $espace-xs;
+  margin-bottom: $espace-sm;
+}
+
+.ligne {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.95rem;
+  color: $encre-marine;
+}
+
+.retirer {
+  background: none;
+  border: none;
+  color: $gris-doux;
+  cursor: pointer;
+  font-size: 0.85rem;
+  &:hover { color: $terracotta; }
+}
+
+.capacite {
+  font-size: 0.85rem;
+  padding: $espace-xs $espace-sm;
+  border-radius: 4px;
+  margin-bottom: $espace-sm;
+}
+
+.capaciteOk {
+  background: rgba($vert-eucalyptus, 0.15);
+  color: $vert-eucalyptus;
+}
+
+.capaciteManque {
+  background: rgba($terracotta, 0.12);
+  color: $terracotta-fonce;
+}
+
+.total {
+  display: flex;
+  justify-content: space-between;
+  padding: $espace-sm 0;
+  border-top: 1px solid rgba($encre-marine, 0.1);
+  font-family: $font-titre;
+  font-size: 1.2rem;
+  color: $encre-marine;
+}
+
+.paiement {
+  margin: $espace-sm 0;
+  padding: $espace-sm;
+  background: rgba($sable-ocre, 0.12);
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: $espace-xs;
+}
+
+.lignePaiement {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: $espace-sm;
+  font-size: 0.9rem;
+  color: $encre-marine;
+
+  // le libellé peut occuper la place restante et passer à la ligne...
+  span:first-child { flex: 1; }
+  // ...mais le MONTANT ne se coupe jamais et ne rétrécit pas (lisibilité)
+  span:last-child { white-space: nowrap; flex-shrink: 0; }
+}
+
+.fort { font-weight: 600; color: $terracotta-fonce; }
+
+.bouton {
+  width: 100%;
+  margin-top: $espace-md;
+  padding: $espace-sm;
+  border: none;
+  border-radius: 3px;
+  background: $terracotta;
+  color: $blanc-pur;
+  font-family: $font-corps;
+  font-size: 1rem;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: background-color $transition-douce;
+  &:hover:not(:disabled) { background: $terracotta-fonce; }
+  &:disabled { opacity: 0.5; cursor: default; }
+}
+
+.note {
+  margin-top: $espace-xs;
+  font-size: 0.78rem;
+  color: $gris-doux;
+  text-align: center;
+}

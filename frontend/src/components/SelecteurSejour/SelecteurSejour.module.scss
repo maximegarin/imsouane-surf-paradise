@@ -1,0 +1,150 @@
+@use "../../styles/variables" as *;
+
+// fond sombre qui couvre tout l'écran
+.overlay {
+  position: fixed;
+  inset: 0;                         // top/right/bottom/left = 0
+  background: rgba($encre-marine, 0.45);
+  z-index: 100;
+  display: flex;
+  justify-content: flex-end;        // le panneau colle à droite
+  animation: fondu 0.25s ease;
+}
+
+@keyframes fondu {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+// le panneau latéral
+.panneau {
+  width: 100%;
+  max-width: 560px;
+  height: 100%;
+  background: $blanc-vieilli;
+  overflow-y: auto;                 // scroll si le contenu dépasse
+  padding: $espace-lg;
+  animation: glisse 0.3s ease;
+}
+
+@keyframes glisse {
+  from { transform: translateX(100%); }
+  to   { transform: translateX(0); }
+}
+
+.entete {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: $espace-lg;
+}
+
+.titre {
+  font-size: 1.6rem;
+  color: $terracotta;
+}
+
+.fermer {
+  background: none;
+  border: none;
+  font-size: 1.3rem;
+  color: $gris-doux;
+  cursor: pointer;
+  &:hover { color: $terracotta; }
+}
+
+.bloc {
+  background: $blanc-pur;
+  border-radius: 6px;
+  padding: $espace-md;
+  margin-bottom: $espace-md;
+}
+
+.sousTitre {
+  font-size: 1rem;
+  color: $encre-marine;
+  margin-bottom: $espace-sm;
+}
+
+// --- Voyageurs ---
+.ligneVoyageurs {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $espace-sm 0;
+  &:not(:last-child) { border-bottom: 1px solid rgba($encre-marine, 0.06); }
+}
+
+.voyageurNom {
+  display: block;
+  font-size: 1rem;
+  color: $encre-marine;
+}
+
+.voyageurAge {
+  display: block;
+  font-size: 0.8rem;
+  color: $gris-doux;
+}
+
+.compteur {
+  display: flex;
+  align-items: center;
+  gap: $espace-sm;
+
+  button {
+    width: 34px;
+    height: 34px;
+    border: 1px solid rgba($terracotta, 0.5);
+    border-radius: 50%;
+    background: transparent;
+    color: $terracotta;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all $transition-douce;
+    &:hover:not(:disabled) { background: $terracotta; color: $blanc-pur; }
+    &:disabled { opacity: 0.3; cursor: default; }
+  }
+}
+
+.actions {
+  display: flex;
+  gap: $espace-sm;
+  align-items: center;
+}
+
+.reinit {
+  flex: 0 0 auto;
+  padding: $espace-sm $espace-md;
+  border: 1px solid rgba($encre-marine, 0.2);
+  border-radius: 3px;
+  background: transparent;
+  color: $gris-doux;
+  font-family: $font-corps;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all $transition-douce;
+  &:hover { border-color: $terracotta; color: $terracotta; }
+}
+
+.valider {
+  flex: 1;
+  padding: $espace-sm;
+  border: none;
+  border-radius: 3px;
+  background: $terracotta;
+  color: $blanc-pur;
+  font-family: $font-corps;
+  font-size: 1.05rem;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: background-color $transition-douce;
+  &:hover { background: $terracotta-fonce; }
+}
+
+// --- Personnalisation react-day-picker à la DA ---
+:global(.rdp-root) {
+  --rdp-accent-color: #{$terracotta};
+  --rdp-accent-background-color: #{rgba($sable-ocre, 0.25)};
+  margin: 0;
+}

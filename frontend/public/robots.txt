@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+# On n'indexe pas l'espace d'administration ni le tunnel de réservation
+Disallow: /admin/
+Disallow: /reservation
+
+Sitemap: https://imsouane-surf-paradise.com/sitemap.xml

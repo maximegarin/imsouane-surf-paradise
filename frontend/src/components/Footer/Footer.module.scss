@@ -1,0 +1,67 @@
+@use "../../styles/variables" as *;
+
+.footer {
+  background-color: $encre-marine;   // fond foncé "océan le soir"
+  color: $blanc-vieilli;
+  padding: $espace-xl $espace-md $espace-md;
+  margin-top: auto;                  // pousse le footer en bas (sticky footer)
+}
+
+.contenu {
+  max-width: $largeur-max;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: $espace-lg;
+  padding-bottom: $espace-lg;
+}
+
+.bloc {
+  display: flex;
+  flex-direction: column;
+  gap: $espace-xs;
+}
+
+.nom {
+  font-family: $font-titre;
+  font-size: 1.5rem;
+  color: $terracotta;          // accent de marque, cohérent avec tout le site
+}
+
+.baseline {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  opacity: 0.85;
+}
+
+.titreCol {
+  font-family: $font-corps;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: $blanc-vieilli;       // label sobre en crème (pas de couleur criarde)
+  opacity: 0.6;
+  margin-bottom: $espace-xs;
+}
+
+.lien {
+  font-size: 0.95rem;
+  opacity: 0.85;
+  transition: opacity $transition-douce, color $transition-douce;
+  &:hover { opacity: 1; color: $terracotta; }
+}
+
+.info {
+  font-size: 0.95rem;
+  opacity: 0.85;
+}
+
+.bas {
+  max-width: $largeur-max;
+  margin: 0 auto;
+  padding-top: $espace-md;
+  border-top: 1px solid rgba($blanc-vieilli, 0.15);
+  font-size: 0.8rem;
+  opacity: 0.6;
+  text-align: center;
+}

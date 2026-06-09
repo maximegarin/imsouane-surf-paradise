@@ -1,0 +1,87 @@
+@use "../../styles/variables" as *;
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: $hauteur-header;            // hauteur fixe -> calcul exact du hero
+  padding: 0 $espace-lg;
+  background-color: $blanc-vieilli;   // crème solide, NET (plus de flou)
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.logo {
+  font-family: $font-titre;
+  font-size: 1.5rem;
+  color: $encre-marine;
+  z-index: 60;   // reste au-dessus du panneau mobile
+}
+
+.nav {
+  display: flex;
+  gap: $espace-lg;
+}
+
+.lien {
+  font-family: $font-corps;
+  font-size: 0.9rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: $encre-marine;
+  transition: color $transition-douce;
+  &:hover { color: $terracotta; }
+}
+
+.actif { color: $terracotta; }
+
+// --- Burger : caché en desktop ---
+.burger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 26px;
+  height: 18px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 60;
+}
+
+.barre {
+  display: block;
+  height: 2px;
+  width: 100%;
+  background: $encre-marine;
+  transition: transform $transition-douce, opacity $transition-douce;
+}
+
+// animation du burger en croix quand ouvert
+.barre1Ouvert { transform: translateY(8px) rotate(45deg); }
+.barre2Ouvert { opacity: 0; }
+.barre3Ouvert { transform: translateY(-8px) rotate(-45deg); }
+
+// =================== Responsive : sous 768px ===================
+@media (max-width: 768px) {
+  .burger { display: flex; }
+
+  // le menu devient un panneau plein écran déroulant
+  .nav {
+    position: fixed;
+    inset: 0;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: $espace-lg;
+    background-color: $blanc-vieilli;
+    // caché par défaut (glisse depuis le haut)
+    transform: translateY(-100%);
+    transition: transform $transition-douce;
+  }
+
+  .navOuverte { transform: translateY(0); }
+
+  .lien { font-size: 1.2rem; }
+}

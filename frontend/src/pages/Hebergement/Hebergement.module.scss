@@ -1,0 +1,66 @@
+@use "../../styles/variables" as *;
+
+.hebergement {
+  max-width: $largeur-max;
+  margin: 0 auto;
+  padding: $espace-xl $espace-md;
+  text-align: center;
+}
+
+.titre {
+  font-size: clamp(2rem, 5vw, 4rem);
+  color: $encre-marine;
+  margin-bottom: $espace-sm;
+}
+
+.intro {
+  font-size: 1.1rem;
+  color: $gris-doux;
+  margin-bottom: $espace-lg;
+}
+
+.barreSejour {
+  display: flex;
+  justify-content: center;
+  margin-bottom: $espace-lg;
+}
+
+.boutonSejour {
+  padding: $espace-sm $espace-lg;
+  border: 1px solid rgba($encre-marine, 0.2);
+  border-radius: 999px;
+  background: $blanc-pur;
+  color: $encre-marine;
+  font-family: $font-corps;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all $transition-douce;
+  &:hover { border-color: $terracotta; color: $terracotta; }
+}
+
+.message {
+  color: $gris-doux;
+  font-style: italic;
+}
+
+// Grille responsive : autant de colonnes que la largeur le permet,
+// chaque carte fait au minimum 280px. En dessous, une seule colonne.
+// layout : grille de chambres (gauche) + récap sticky (droite)
+.colonnes {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: $espace-lg;
+  align-items: start;
+  text-align: left;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;   // récap passe sous la grille sur mobile
+  }
+}
+
+.grille {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: $espace-md;
+  text-align: left;
+}

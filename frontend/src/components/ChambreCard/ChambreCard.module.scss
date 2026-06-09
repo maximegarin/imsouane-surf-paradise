@@ -1,0 +1,142 @@
+@use "../../styles/variables" as *;
+
+// Carte épurée façon Airbnb : pas de fond ni de bordure, la PHOTO porte la carte.
+.card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;                   // remplit la cellule -> cards de hauteur égale
+  color: inherit;
+  background: none;
+}
+
+// --- Média : photo de couverture arrondie ---
+.media {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border-radius: 14px;            // coins arrondis (signature Airbnb)
+  overflow: hidden;               // le zoom de l'image reste découpé
+  background: rgba($encre-marine, 0.06);
+}
+
+.photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform $transition-douce;
+}
+
+.card:hover .photo {
+  transform: scale(1.04);         // léger zoom au survol
+}
+
+// petit badge posé sur la photo (ex. "Terrasse")
+.badge {
+  position: absolute;
+  top: $espace-sm;
+  left: $espace-sm;
+  background: rgba($blanc-pur, 0.92);
+  color: $encre-marine;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.7rem;
+  border-radius: $radius-bouton;
+}
+
+// --- Corps ---
+.corps {
+  display: flex;
+  flex-direction: column;
+  flex: 1;                        // occupe la hauteur restante -> actions en bas
+  gap: 0.35rem;
+  padding: $espace-sm 0 0;        // pas de fond -> juste un espace sous la photo
+}
+
+.ligneTitre {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: $espace-sm;
+}
+
+.nom {
+  font-size: 1.15rem;
+  color: $encre-marine;           // titre sobre (l'accent reste sur le prix)
+  line-height: 1.2;
+}
+
+.prix {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;          // aligné à droite, sur 2 lignes
+  text-align: right;
+}
+
+.prixLabel {
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  color: $gris-doux;
+}
+
+.prixValeur {
+  font-size: 0.9rem;
+  color: $gris-doux;
+  white-space: nowrap;            // "99 € / nuit" ne se coupe pas
+
+  strong {
+    font-family: $font-titre;
+    font-size: 1.05rem;
+    color: $encre-marine;
+  }
+}
+
+.meta {
+  font-size: 0.9rem;
+  color: $gris-doux;
+}
+
+.lits {
+  font-size: 0.9rem;
+  color: $gris-doux;
+}
+
+// --- Actions : collées en bas pour aligner les boutons sur toute la ligne ---
+.actions {
+  margin-top: auto;               // pousse le bloc tout en bas de la card
+  padding-top: $espace-sm;
+  display: flex;
+  flex-direction: column;
+  gap: $espace-sm;                // respiration entre le lien et le bouton
+}
+
+.lienInfos {
+  align-self: flex-start;
+  font-size: 0.9rem;
+  color: $encre-marine;           // neutre par défaut
+  transition: color $transition-douce;
+}
+
+.card:hover .lienInfos { color: $terracotta; }   // terracotta seulement au survol
+
+// --- Bouton d'ajout au séjour ---
+.bouton {
+  padding: $espace-xs $espace-md;
+  border: 1px solid $terracotta;
+  border-radius: $radius-bouton;  // pill, cohérent avec le reste du site
+  background: transparent;
+  color: $terracotta;
+  font-family: $font-corps;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background-color $transition-douce, color $transition-douce;
+  &:hover { background: $terracotta; color: $blanc-pur; }
+}
+
+// état "déjà ajouté" : plein vert eucalyptus
+.boutonAjoute {
+  background: $vert-eucalyptus;
+  border-color: $vert-eucalyptus;
+  color: $blanc-pur;
+  &:hover { background: $vert-eucalyptus; opacity: 0.85; color: $blanc-pur; }
+}

@@ -1,0 +1,252 @@
+@use "../../styles/variables" as *;
+
+.tunnel {
+  max-width: $largeur-max;
+  margin: 0 auto;
+  padding: $espace-lg $espace-md $espace-xl;
+}
+
+.retourModif {
+  background: none;
+  border: none;
+  color: $gris-doux;
+  font-family: $font-corps;
+  font-size: 0.95rem;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: $espace-md;
+  &:hover { color: $terracotta; }
+}
+
+.intro {
+  margin-bottom: $espace-lg;
+}
+
+.titre {
+  font-size: clamp(2rem, 5vw, 3rem);
+  color: $terracotta;
+}
+
+// layout 2 colonnes : options/coordonnées (gauche) + récap (droite)
+.colonnes {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: $espace-xl;
+  align-items: start;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: $espace-lg;
+  }
+}
+
+.parcours { min-width: 0; }
+
+.bloc {
+  margin-bottom: $espace-md;
+  padding-bottom: $espace-md;
+  border-bottom: 1px solid rgba($encre-marine, 0.08);
+  &:last-of-type { border-bottom: none; }
+}
+
+.question {
+  font-size: 1.4rem;
+  color: $encre-marine;
+  margin-bottom: $espace-sm;
+}
+
+// --- Ménage inclus (séjour long) : encart chaleureux ---
+.menageInclus {
+  background: rgba($vert-eucalyptus, 0.1);
+  border: 1px solid rgba($vert-eucalyptus, 0.3);
+  border-radius: 8px;
+  padding: $espace-md;
+
+  p { color: $encre-marine; font-size: 0.95rem; line-height: 1.7; }
+}
+
+.menageInclusTitre {
+  font-size: 1.1rem;
+  color: $vert-eucalyptus;
+  margin-bottom: $espace-xs;
+}
+
+// --- Option payante (ménage court séjour / packs) ---
+.optionBloc {
+  background: $blanc-pur;
+  border-radius: 6px;
+  padding: $espace-md;
+  margin-bottom: $espace-sm;
+  display: flex;
+  flex-direction: column;
+  gap: $espace-sm;
+}
+
+.optionInfos { display: flex; flex-direction: column; gap: 2px; }
+.optionNom { font-size: 1.05rem; color: $encre-marine; }
+.optionDesc { font-size: 0.88rem; color: $gris-doux; }
+
+.ligneMenage {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $espace-xs 0;
+  border-top: 1px solid rgba($encre-marine, 0.06);
+}
+
+.compteur {
+  display: flex;
+  align-items: center;
+  gap: $espace-sm;
+  button {
+    width: 32px; height: 32px;
+    border: 1px solid rgba($terracotta, 0.5);
+    border-radius: 50%;
+    background: transparent;
+    color: $terracotta;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all $transition-douce;
+    &:hover:not(:disabled) { background: $terracotta; color: $blanc-pur; }
+    &:disabled { opacity: 0.3; cursor: default; }
+  }
+}
+
+// --- Formulaire coordonnées ---
+.formCoord { display: flex; flex-direction: column; gap: $espace-sm; }
+
+.champs {
+  display: flex;
+  gap: $espace-md;
+  flex-wrap: wrap;
+  margin-bottom: $espace-md;   // espace entre les rangées (prénom/nom puis email/tél)
+}
+
+.label {
+  display: flex;
+  flex-direction: column;
+  gap: $espace-xs;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: $gris-doux;
+  flex: 1;
+  min-width: 160px;
+}
+
+.input {
+  padding: $espace-sm;
+  border: 1px solid rgba($encre-marine, 0.15);
+  border-radius: 3px;
+  font-family: $font-corps;
+  font-size: 1rem;
+  color: $encre-marine;
+  background: $blanc-pur;
+  &:focus { outline: none; border-color: $terracotta; }
+}
+
+// champ obligatoire non rempli (après avoir été visité)
+.inputErreur {
+  border-color: #C0392B;
+  background: rgba(#C0392B, 0.04);
+  &:focus { border-color: #C0392B; }
+}
+
+// l'astérisque rouge des champs obligatoires
+.requis { color: #C0392B; }
+
+// le texte du label (garde "Prénom *" sur une seule ligne, au-dessus de l'input)
+.labelTexte { display: inline; }
+
+// message d'erreur sous le champ
+.msgErreur {
+  margin-top: 4px;
+  font-size: 0.78rem;
+  color: #C0392B;
+  text-transform: none;       // annule le uppercase du label
+  letter-spacing: normal;
+}
+
+.mentionRequis {
+  font-size: 0.8rem;
+  color: $gris-doux;
+  margin-bottom: $espace-sm;
+}
+
+.optin {
+  display: flex;
+  align-items: flex-start;
+  gap: $espace-xs;
+  font-size: 0.9rem;
+  color: $gris-doux;
+  cursor: pointer;
+  input { margin-top: 3px; accent-color: $terracotta; cursor: pointer; }
+}
+
+.erreur { color: $terracotta-fonce; font-size: 0.95rem; }
+
+.aide { font-size: 0.82rem; color: $gris-doux; margin-top: $espace-xs; }
+
+.boutonValider {
+  align-self: flex-start;
+  padding: $espace-sm $espace-lg;
+  border: none;
+  border-radius: 3px;
+  background: $terracotta;
+  color: $blanc-pur;
+  font-family: $font-corps;
+  font-size: 1rem;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: background-color $transition-douce;
+  &:hover:not(:disabled) { background: $terracotta-fonce; }
+  &:disabled { opacity: 0.6; cursor: default; }
+}
+
+// --- Récap (droite) ---
+.recap {
+  position: sticky;
+  top: $espace-lg;
+  align-self: start;
+  background: $blanc-pur;
+  border: 1px solid rgba($encre-marine, 0.08);
+  border-radius: 6px;
+  padding: $espace-md;
+}
+
+.recapTitre { font-size: 1.3rem; color: $terracotta; margin-bottom: $espace-xs; }
+.recapDates { font-size: 0.95rem; color: $encre-marine; }
+.recapVoy { font-size: 0.85rem; color: $gris-doux; margin-bottom: $espace-sm; }
+
+.recapLignes {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: $espace-xs;
+  margin-bottom: $espace-sm;
+  li { display: flex; justify-content: space-between; font-size: 0.92rem; color: $encre-marine; gap: $espace-sm;
+       span:last-child { white-space: nowrap; } }
+}
+
+.recapTotal {
+  display: flex;
+  justify-content: space-between;
+  padding: $espace-sm 0;
+  border-top: 1px solid rgba($encre-marine, 0.1);
+  font-family: $font-titre;
+  font-size: 1.2rem;
+}
+
+.recapPaiement {
+  margin-top: $espace-sm;
+  padding: $espace-sm;
+  background: rgba($sable-ocre, 0.12);
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: $espace-xs;
+  div { display: flex; justify-content: space-between; gap: $espace-sm; font-size: 0.9rem;
+        span:last-child { white-space: nowrap; } }
+}
+
+.fort { font-weight: 600; color: $terracotta-fonce; }

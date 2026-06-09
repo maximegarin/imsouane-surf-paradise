@@ -1,0 +1,38 @@
+// =============================================================================
+//  _variables.scss — Le "système de design" du projet.
+//  Toutes les couleurs, polices et mesures de référence vivent ICI.
+//  Avantage : on change une valeur à un seul endroit -> tout le site suit.
+//  Le "_" devant le nom = convention Sass pour un "partial" (fichier importé,
+//  jamais compilé seul).
+// =============================================================================
+
+// --- PALETTE (DA chaleureuse : terracotta / sable / eucalyptus / marine) ----
+$blanc-vieilli:   #F5F0E8;  // fond principal (murs à la chaux)
+$terracotta:      #B85C38;  // accent chaud (tuiles marocaines)
+$sable-ocre:      #D4A96A;  // accent doux (plage d'Imsouane)
+$vert-eucalyptus: #4A6741;  // nature / jardin
+$encre-marine:    #1C2B3A;  // texte foncé / océan le soir
+
+// Quelques nuances utiles dérivées
+$terracotta-fonce: #9A4A2C;
+$blanc-pur:        #FFFFFF;
+$gris-doux:        #8A8276;  // texte secondaire (chaud, pas gris froid)
+
+// --- TYPOGRAPHIE -----------------------------------------------------------
+$font-titre: 'Young Serif', serif;   // titres : chaleureux, artisanal
+$font-corps: 'Inter', sans-serif;    // corps : lisible, humain
+
+// --- RESPIRATION (espacements) ---------------------------------------------
+// Une échelle cohérente pour les marges/paddings (la "respiration" de la DA).
+$espace-xs:  0.5rem;
+$espace-sm:  1rem;
+$espace-md:  2rem;
+$espace-lg:  4rem;
+$espace-xl:  8rem;    // grandes sections aérées (esprit Cereal/Kinfolk)
+
+// --- DIVERS ----------------------------------------------------------------
+$largeur-max: 1200px;          // largeur max du contenu centré
+$transition-douce: 0.6s ease;  // transitions lentes (ambiance chill)
+$radius-bouton: 999px;         // boutons très arrondis (pill)
+$hauteur-header: 5.5rem;       // hauteur fixe du header (sert au calcul du hero plein écran)
+// Note DA : les IMAGES restent à bords NETS (radius 0) — esprit portfolio éditorial.

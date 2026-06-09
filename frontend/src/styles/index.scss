@@ -1,0 +1,54 @@
+// =============================================================================
+//  index.scss — Styles GLOBAUX (importés une seule fois dans main.jsx).
+//  Contient : import des polices, reset léger, styles de base du <body>.
+//  Le style SPÉCIFIQUE à un composant ira dans son propre .module.scss.
+// =============================================================================
+
+@use 'variables' as *;   // importe les variables ($terracotta, $font-titre...)
+
+// --- Polices Google Fonts ---------------------------------------------------
+@import url('https://fonts.googleapis.com/css2?family=Young+Serif&family=Inter:wght@300;400;500;600&display=swap');
+
+// --- Reset léger ------------------------------------------------------------
+// Remet les marges/paddings à zéro et rend le box-model prévisible.
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;   // la largeur inclut padding + bordure (plus intuitif)
+}
+
+// --- Base du document -------------------------------------------------------
+html {
+  scroll-behavior: smooth;  // défilement doux (ambiance chill)
+}
+
+body {
+  font-family: $font-corps;
+  color: $encre-marine;
+  background-color: $blanc-vieilli;
+  line-height: 1.6;          // texte aéré, lisible
+  -webkit-font-smoothing: antialiased;  // rendu de police plus net
+}
+
+// --- Titres -----------------------------------------------------------------
+h1, h2, h3, h4 {
+  font-family: $font-titre;
+  font-weight: 400;          // Young Serif n'a qu'une graisse, on reste léger
+  line-height: 1.15;
+  color: $encre-marine;
+}
+
+// --- Liens & images ---------------------------------------------------------
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color $transition-douce;
+}
+
+img {
+  display: block;
+  max-width: 100%;   // les images ne débordent jamais de leur conteneur
+  height: auto;
+}

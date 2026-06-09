@@ -1,0 +1,12 @@
+// App.module.scss — layout global "sticky footer".
+// L'app occupe au moins toute la hauteur de l'écran ; le <main> prend l'espace
+// disponible, ce qui pousse le Footer tout en bas même quand la page est courte.
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.contenu {
+  flex: 1;   // le contenu prend toute la place restante -> footer en bas
+}

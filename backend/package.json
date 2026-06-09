@@ -1,0 +1,28 @@
+{
+  "name": "imsouane-surf-api",
+  "version": "1.0.0",
+  "description": "API REST du homestay surf Imsouane Surf Paradise",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "start": "node server.js",
+    "test:erreurs": "node scripts/test-erreurs.js"
+  },
+  "author": "Maxime Garin",
+  "license": "ISC",
+  "dependencies": {
+    "argon2": "^0.41.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "helmet": "^8.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "mysql2": "^3.12.0",
+    "nodemailer": "^8.0.10",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
+}

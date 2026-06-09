@@ -1,0 +1,46 @@
+@use "../../styles/variables" as *;
+
+// conteneur plein écran (ne bouge pas ; il est juste retiré à la fin)
+.volet {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+// le FOND sombre : c'est LUI qui se lève (pas le titre)
+.fond {
+  position: absolute;
+  inset: 0;
+  background: $encre-marine;
+  transition: transform 1.2s cubic-bezier(0.7, 0, 0.2, 1);
+}
+
+.fondSort {
+  transform: translateY(-100%);   // le fond monte et révèle la page
+}
+
+// le TITRE : arrive depuis le hors-champ gauche, puis reste STATIQUE.
+// base = état final (opacité 1, en place) ; "backwards" affiche l'état de départ
+// pendant le délai initial (volet vide), sans bloquer le fondu de sortie.
+.nom {
+  position: relative;
+  z-index: 1;                      // au-dessus du fond
+  font-family: $font-titre;
+  font-size: clamp(2rem, 7vw, 5rem);
+  color: $blanc-pur;
+  white-space: nowrap;
+  padding: 0 $espace-md;
+  text-align: center;
+  opacity: 1;
+  transform: translateX(0);
+  animation: glisseDepuisGauche 1.6s cubic-bezier(0.16, 1, 0.3, 1) 0.6s backwards;
+}
+
+@keyframes glisseDepuisGauche {
+  from { opacity: 0; transform: translateX(-60vw); }
+  to   { opacity: 1; transform: translateX(0); }
+}
