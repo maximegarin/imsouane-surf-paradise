@@ -319,6 +319,4 @@ Variable `.env` (front) : `VITE_API_URL` (ex. `http://localhost:3000/api`)
 ## Auteur
 
 **Maxime Garin** — [github.com/maximegarin](https://github.com/maximegarin)
-#   i m s o u a n e - s u r f - p a r a d i s e  
- #   i m s o u a n e - s u r f - p a r a d i s e  
- 
+#
