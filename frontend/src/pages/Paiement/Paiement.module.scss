@@ -56,7 +56,10 @@
   border-radius: 6px;
 }
 
-.ligne { display: flex; gap: $espace-md; }
+.ligne {
+  display: flex;
+  gap: $espace-md;
+}
 
 .label {
   display: flex;
@@ -70,15 +73,23 @@
 }
 
 .input {
+  width: 100%;
+  box-sizing: border-box;
   padding: $espace-sm;
   border: 1px solid rgba($encre-marine, 0.15);
   border-radius: 3px;
   font-family: $font-corps;
   font-size: 1rem;
-  &:focus { outline: none; border-color: $terracotta; }
+  &:focus {
+    outline: none;
+    border-color: $terracotta;
+  }
 }
 
-.erreur { color: #C0392B; font-size: 0.9rem; }
+.erreur {
+  color: #c0392b;
+  font-size: 0.9rem;
+}
 
 .bouton {
   padding: $espace-sm;
@@ -91,8 +102,13 @@
   letter-spacing: 0.05em;
   cursor: pointer;
   transition: background-color $transition-douce;
-  &:hover:not(:disabled) { background: $terracotta-fonce; }
-  &:disabled { opacity: 0.6; cursor: default; }
+  &:hover:not(:disabled) {
+    background: $terracotta-fonce;
+  }
+  &:disabled {
+    opacity: 0.6;
+    cursor: default;
+  }
 }
 
 .note {

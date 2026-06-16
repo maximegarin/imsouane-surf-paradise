@@ -3,17 +3,21 @@
 // fond sombre qui couvre tout l'écran
 .overlay {
   position: fixed;
-  inset: 0;                         // top/right/bottom/left = 0
+  inset: 0; // top/right/bottom/left = 0
   background: rgba($encre-marine, 0.45);
   z-index: 100;
   display: flex;
-  justify-content: flex-end;        // le panneau colle à droite
+  justify-content: flex-end; // le panneau colle à droite
   animation: fondu 0.25s ease;
 }
 
 @keyframes fondu {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 // le panneau latéral
@@ -22,14 +26,18 @@
   max-width: 560px;
   height: 100%;
   background: $blanc-vieilli;
-  overflow-y: auto;                 // scroll si le contenu dépasse
+  overflow-y: auto; // scroll si le contenu dépasse
   padding: $espace-lg;
   animation: glisse 0.3s ease;
 }
 
 @keyframes glisse {
-  from { transform: translateX(100%); }
-  to   { transform: translateX(0); }
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
 }
 
 .entete {
@@ -50,7 +58,9 @@
   font-size: 1.3rem;
   color: $gris-doux;
   cursor: pointer;
-  &:hover { color: $terracotta; }
+  &:hover {
+    color: $terracotta;
+  }
 }
 
 .bloc {
@@ -72,7 +82,9 @@
   align-items: center;
   justify-content: space-between;
   padding: $espace-sm 0;
-  &:not(:last-child) { border-bottom: 1px solid rgba($encre-marine, 0.06); }
+  &:not(:last-child) {
+    border-bottom: 1px solid rgba($encre-marine, 0.06);
+  }
 }
 
 .voyageurNom {
@@ -102,8 +114,14 @@
     font-size: 1.1rem;
     cursor: pointer;
     transition: all $transition-douce;
-    &:hover:not(:disabled) { background: $terracotta; color: $blanc-pur; }
-    &:disabled { opacity: 0.3; cursor: default; }
+    &:hover:not(:disabled) {
+      background: $terracotta;
+      color: $blanc-pur;
+    }
+    &:disabled {
+      opacity: 0.3;
+      cursor: default;
+    }
   }
 }
 
@@ -124,7 +142,10 @@
   font-size: 0.95rem;
   cursor: pointer;
   transition: all $transition-douce;
-  &:hover { border-color: $terracotta; color: $terracotta; }
+  &:hover {
+    border-color: $terracotta;
+    color: $terracotta;
+  }
 }
 
 .valider {
@@ -139,12 +160,46 @@
   letter-spacing: 0.05em;
   cursor: pointer;
   transition: background-color $transition-douce;
-  &:hover { background: $terracotta-fonce; }
+  &:hover {
+    background: $terracotta-fonce;
+  }
 }
 
 // --- Personnalisation react-day-picker à la DA ---
 :global(.rdp-root) {
   --rdp-accent-color: #{$terracotta};
   --rdp-accent-background-color: #{rgba($sable-ocre, 0.25)};
+  --rdp-day-width: 2.5rem;
+  --rdp-day-height: 2.5rem;
   margin: 0;
+  width: 100%;
+}
+
+// la grille occupe toute la largeur et répartit les 7 colonnes également
+// (table-layout fixed -> plus de débordement ni de désalignement en-têtes/jours)
+:global(.rdp-months),
+:global(.rdp-month),
+:global(.rdp-month_grid) {
+  width: 100%;
+  max-width: 100%;
+}
+:global(.rdp-month_grid) {
+  table-layout: fixed;
+}
+
+// --- Responsive : cellules plus compactes + panneau moins large ---
+@media (max-width: 480px) {
+  .panneau {
+    padding: $espace-md;
+  }
+  .titre {
+    font-size: 1.35rem;
+  }
+  .bloc {
+    padding: $espace-sm;
+  }
+  :global(.rdp-root) {
+    --rdp-day-width: 2rem;
+    --rdp-day-height: 2rem;
+  }
 }
