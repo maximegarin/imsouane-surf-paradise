@@ -1,6 +1,6 @@
 // Accueil.jsx — page d'accueil ÉDITORIALE (esprit Cereal : crème, photos nettes
 // multi-formats posées comme un portfolio, beaucoup de vide, reveal au scroll).
-// ⚠️ Images = placeholders thématiques (LoremFlickr) à remplacer par les vraies photos.
+// Images réelles servies depuis Cloudinary (voir la constante CLOUD ci-dessous).
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Reveal from "../../components/Reveal/Reveal";
@@ -8,31 +8,51 @@ import Lightbox from "../../components/Lightbox/Lightbox";
 import Seo from "../../components/Seo/Seo";
 import styles from "./Accueil.module.scss";
 
-// Images du carrousel hero (Unsplash — meilleure qualité). Crossfade auto lent.
-// Paramètres ?auto=format&fit=crop&w=1920&q=70 = recadrage + compression.
-const U = (id) => `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=1920&q=70`;
-const HERO_IMAGES = [
-  U("1502933691298-84fc14542831"), // surfeur dans la vague
-  U("1505459668311-8dfac7952bf0"), // vague
-  U("1455729552865-3658a5d39692"), // océan horizon
-  U("1530053969600-caed2596d242"), // plage
-];
+// ── Cloudinary ──────────────────────────────────────────────────────────────
+// Toutes les images réelles sont hébergées sur Cloudinary. f_auto,q_auto =
+// format (WebP/AVIF) + compression servis automatiquement selon le navigateur.
+// Le cloud name vient du .env (VITE_CLOUDINARY_CLOUD) — pas secret (il apparaît
+// dans chaque URL publique), mais gardé hors du code par cohérence avec
+// VITE_API_URL. Repli "dsepfzneu" si la variable manque.
+const CLOUD = import.meta.env.VITE_CLOUDINARY_CLOUD || "dsepfzneu";
+const cld = (chemin) =>
+  `https://res.cloudinary.com/${CLOUD}/image/upload/f_auto,q_auto/imsouane/${chemin}`;
+const heroImg = (n) => cld(`hero/hero-${String(n).padStart(2, "0")}`);
+const ambiance = (n) => cld(`ambiances/ambiance-${String(n).padStart(2, "0")}`);
+const chambrePhoto = (slug, n = 1) =>
+  cld(`chambres/${slug}/${slug}-${String(n).padStart(2, "0")}`);
 
+// Carrousel hero — 4 slides (dossier imsouane/hero/). Crossfade auto lent.
+const HERO_IMAGES = [heroImg(1), heroImg(2), heroImg(3), heroImg(4)];
+
+// Visuels de l'accueil : slots "lieu"/"expérience" = photos d'ambiance ;
+// slots "chambres" = vraies photos de chambre (cover).
 const IMG = {
-  lieuA: U("1539020140153-e479b8c22e70"),    // fontaine marocaine (portrait)
-  lieu2: U("1530053969600-caed2596d242"),    // plage
-  lieu3: U("1455729552865-3658a5d39692"),    // océan horizon (remplace la forêt hors-sujet)
-  ch1: U("1507525428034-b723cf961d3e"),      // plage turquoise
-  ch2: U("1502933691298-84fc14542831"),      // surf
-  ch3: U("1505459668311-8dfac7952bf0"),      // vague
-  experience: U("1531722569936-825d3dd91b15"), // surf / vague
+  lieuA: ambiance(2),               // petit-déjeuner marocain (repas partagés)
+  lieu2: ambiance(4),               // terrasse mosaïque, vue baie
+  lieu3: ambiance(8),               // terrasse oliviers
+  ch1: chambrePhoto("lazulite"),    // teaser Lazulite
+  ch2: chambrePhoto("tamsrite"),    // teaser Tamsrite
+  ch3: chambrePhoto("mauringa-1"),  // teaser Mauringa
+  experience: ambiance(1),          // la baie d'Imsouane (la longue vague)
 };
 
-// Texture sable strié (rides creusées par le vent/l'eau) pour le bandeau séparateur.
-const SABLE = U("1524207874394-5ec7c8c8e1a6");
+// Photos d'ambiance du carrousel "Au fil des jours" : les 6 restantes,
+// rythme alterné surf / calme.
+const AMBIANCES = [
+  ambiance(3),   // surfeur contre-jour
+  ambiance(6),   // terrasse + arbre
+  ambiance(5),   // longboarder
+  ambiance(9),   // chambre vue mer
+  ambiance(7),   // surfeur + rochers
+  ambiance(10),  // patio
+];
 
 // Toutes les photos de l'accueil, dans l'ordre -> la lightbox navigue dessus.
-const GALERIE = [IMG.lieuA, IMG.lieu2, IMG.lieu3, IMG.ch1, IMG.ch2, IMG.ch3, IMG.experience];
+const GALERIE = [
+  IMG.lieuA, IMG.lieu2, IMG.lieu3, IMG.ch1, IMG.ch2, IMG.ch3, IMG.experience,
+  ...AMBIANCES,
+];
 
 // Chambres mises en avant : le carrousel du bas affiche 1 card à la fois,
 // et le texte descriptif à gauche change selon la card sélectionnée.
@@ -42,28 +62,28 @@ const CHAMBRES_APERCU = [
     slug: "tamsrite",
     tags: ["Jusqu'à 4 pers.", "Terrasse", "Vue spot"],
     desc: "Suite familiale face au spot. Un lit double, deux lits simples.",
-    img: U("1505459668311-8dfac7952bf0"),
+    img: chambrePhoto("tamsrite"),
   },
   {
     nom: "Lazulite",
     slug: "lazulite",
     tags: ["2 pers.", "Vue mer", "Terrasse"],
     desc: "Un cocon lumineux, la mer pour seul horizon.",
-    img: U("1518710843675-2540dd79065c"),
+    img: chambrePhoto("lazulite"),
   },
   {
     nom: "Mauringa",
     slug: "mauringa-1",
     tags: ["2 pers.", "Face océan", "Intime"],
     desc: "Simple et chaleureux, à deux pas des vagues.",
-    img: U("1507525428034-b723cf961d3e"),
+    img: chambrePhoto("mauringa-1"),
   },
   {
     nom: "Argana",
     slug: "argana-wooden-appartement",
     tags: ["Jusqu'à 5 pers.", "Appartement", "Cuisine"],
     desc: "Grand espace en bois, salon et cuisine pour les tribus.",
-    img: U("1530053969600-caed2596d242"),
+    img: chambrePhoto("argana-wooden-appartement"),
   },
 ];
 
@@ -86,6 +106,11 @@ function Accueil() {
   const chambreActive = CHAMBRES_APERCU[idxRefuge];
   const refugePrec = () => setIdxRefuge((i) => (i - 1 + nbRefuge) % nbRefuge);
   const refugeSuiv = () => setIdxRefuge((i) => (i + 1) % nbRefuge);
+  // carrousel "au fil des jours" : index de l'ambiance affichée
+  const [idxAmbiance, setIdxAmbiance] = useState(0);
+  const nbAmbiance = AMBIANCES.length;
+  const ambiancePrec = () => setIdxAmbiance((i) => (i - 1 + nbAmbiance) % nbAmbiance);
+  const ambianceSuiv = () => setIdxAmbiance((i) => (i + 1) % nbAmbiance);
   const total = HERO_IMAGES.length;
   // index courant : va de 0 à `total` (le dernier = CLONE de la 1ère image)
   const [indexHero, setIndexHero] = useState(0);
@@ -279,12 +304,52 @@ function Accueil() {
         </Reveal>
       </section>
 
-      {/* Bandeau texture sable : fin séparateur pleine largeur (respiration) */}
-      <div
-        className={styles.bandeau}
-        style={{ backgroundImage: `url(${SABLE})` }}
-        aria-hidden="true"
-      />
+      {/* ============ AU FIL DES JOURS — carrousel d'ambiances (flèches + dots, esprit DA) ============ */}
+      <section className={styles.ambiances}>
+        <Reveal className={styles.ambiancesEntete}>
+          <span className={styles.surTitre}>Au fil des jours</span>
+        </Reveal>
+
+        <Reveal delai={120} className={styles.ambiancesScene}>
+          {/* key -> rejoue le fondu à chaque changement de photo */}
+          <div key={idxAmbiance} className={styles.ambiancesFond}>
+            <PhotoZoom
+              src={AMBIANCES[idxAmbiance]}
+              onOpen={() => setLbIndex(7 + idxAmbiance)}
+            />
+          </div>
+        </Reveal>
+
+        <div className={styles.ambiancesNav}>
+          <button
+            type="button"
+            className={styles.ambiancesFleche}
+            onClick={ambiancePrec}
+            aria-label="Photo précédente"
+          >
+            ‹
+          </button>
+          <div className={styles.ambiancesDots}>
+            {AMBIANCES.map((_, i) => (
+              <button
+                key={i}
+                type="button"
+                className={`${styles.ambiancesDot} ${i === idxAmbiance ? styles.ambiancesDotActif : ""}`}
+                onClick={() => setIdxAmbiance(i)}
+                aria-label={`Ambiance ${i + 1}`}
+              />
+            ))}
+          </div>
+          <button
+            type="button"
+            className={styles.ambiancesFleche}
+            onClick={ambianceSuiv}
+            aria-label="Photo suivante"
+          >
+            ›
+          </button>
+        </div>
+      </section>
 
       {/* ============ EXPÉRIENCE — gros titre + photo, puis 2 colonnes (esprit Waaz) ============ */}
       <section className={styles.experience}>
