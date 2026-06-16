@@ -4,7 +4,9 @@ Application web full-stack de réservation pour un homestay surf à Imsouane (Ma
 
 Projet de soutenance — Titre Pro Développeur Web & Web Mobile (AFEC Bayonne) — conçu et développé en solo, et destiné à une mise en production réelle pour le commanditaire.
 
-**Stack :** React 19 / Vite · Express 4 · MySQL (mysql2) · JWT · argon2 · Zod · Helmet · Nodemailer (Brevo SMTP)
+**Stack :** React 19 / Vite · Express 4 · MySQL (mysql2) · JWT · argon2 · Zod · Helmet · Nodemailer (Brevo SMTP) · Cloudinary (médias)
+
+**En production :** front sur **Vercel** · API + base sur **AlwaysData** · images sur **Cloudinary** — [imsouane-surf-paradise.vercel.app](https://imsouane-surf-paradise.vercel.app)
 
 ---
 
@@ -19,7 +21,7 @@ Projet de soutenance — Titre Pro Développeur Web & Web Mobile (AFEC Bayonne) 
 7. [Paiement — simulation du flux Stripe](#7-paiement--simulation-du-flux-stripe)
 8. [Référence API](#8-référence-api)
 9. [Front-end](#9-front-end)
-10. [Démarrage](#10-démarrage)
+10. [Démarrage & déploiement](#10-démarrage--déploiement)
 11. [Compromis assumés & évolutions](#11-compromis-assumés--évolutions)
 
 ---
@@ -76,23 +78,116 @@ Les routes publiques (vitrine, estimation, création de réservation, suivi par 
 
 Schéma relationnel MySQL, intégrité garantie par les clés étrangères et les `ON DELETE CASCADE`. Les statuts et catégories sont contraints par des `ENUM` plutôt que des chaînes libres.
 
+```mermaid
+erDiagram
+    client ||--o{ reservation : "passe"
+    reservation ||--o{ reservation_chambre : "contient"
+    chambre ||--o{ reservation_chambre : "réservée dans"
+    reservation ||--o{ reservation_prestation : "inclut"
+    prestation ||--o{ reservation_prestation : "ajoutée dans"
+    reservation ||--o{ paiement : "réglée par"
+    chambre ||--o{ photo : "illustrée par"
+
+    client {
+        int id PK
+        varchar nom
+        varchar prenom
+        varchar email UK
+        varchar telephone
+        tinyint consentement_marketing
+        timestamp created_at
+    }
+    admin {
+        int id PK
+        varchar nom
+        varchar email UK
+        varchar mot_de_passe
+        enum role
+        timestamp created_at
+    }
+    chambre {
+        int id PK
+        varchar nom
+        varchar slug UK
+        tinyint capacite
+        smallint surface_m2
+        decimal prix_base
+        varchar vue
+        tinyint terrasse
+        varchar composition_lits
+        tinyint actif
+        timestamp created_at
+        timestamp updated_at
+    }
+    photo {
+        int id PK
+        int chambre_id FK
+        varchar url
+        varchar alt
+        tinyint ordre
+    }
+    saison {
+        int id PK
+        varchar nom
+        date date_debut
+        date date_fin
+        decimal coefficient
+        timestamp created_at
+    }
+    prestation {
+        int id PK
+        varchar nom
+        decimal prix
+        enum categorie
+        tinyint actif
+        timestamp created_at
+    }
+    reservation {
+        int id PK
+        int client_id FK
+        date date_arrivee
+        date date_depart
+        tinyint nb_personnes
+        enum statut
+        decimal montant_total
+        decimal montant_acompte
+        char token_suivi UK
+        timestamp created_at
+    }
+    reservation_chambre {
+        int id PK
+        int reservation_id FK
+        int chambre_id FK
+        smallint nb_nuits
+        decimal sous_total
+    }
+    reservation_prestation {
+        int id PK
+        int reservation_id FK
+        int prestation_id FK
+        smallint quantite
+        decimal prix_unitaire
+    }
+    paiement {
+        int id PK
+        int reservation_id FK
+        decimal montant
+        enum type
+        enum statut
+        varchar stripe_payment_intent_id
+        timestamp date_paiement
+        timestamp created_at
+    }
 ```
-client ───────────────┐ (1,N)
-                       │
-admin                  │
-                       ▼
-chambre ──< photo      reservation ──< reservation_chambre >── chambre
-   ▲                        │   │
-   └────────────────────────┘   ├──< reservation_prestation >── prestation
-                                └──< paiement
-```
+
+> `admin` et `saison` n'ont pas de clé étrangère : `admin` est isolée (back-office), `saison` est consommée par le moteur de devis sans relation rigide (chevauchement de périodes résolu en SQL au calcul).
 
 | Table                    | Rôle                            | Points clés                                                           |
 | ------------------------ | ------------------------------- | --------------------------------------------------------------------- |
 | `client`                 | voyageurs (guest checkout)      | `email` **UNIQUE**, consentement marketing (RGPD)                     |
 | `admin`                  | staff                           | `role` **ENUM**(`super_admin`,`admin`,`gestionnaire`), `email` UNIQUE |
 | `chambre`                | les 7 hébergements              | `slug` UNIQUE (URL lisible)                                           |
-| `photo`                  | images d'une chambre            | FK `chambre_id` **ON DELETE CASCADE**                                 |
+| `photo`                  | images d'une chambre            | FK `chambre_id` **ON DELETE CASCADE** · `url` = lien **Cloudinary**    |
 | `saison`                 | périodes tarifaires             | `coefficient` appliqué au prix de base                                |
 | `prestation`             | options payantes                | `categorie` **ENUM**(`menage`,`pack_surf`,`autre`) — table unifiée    |
 | `reservation`            | un séjour                       | `statut` **ENUM**, `token_suivi` UNIQUE, FK `client_id`               |
@@ -263,7 +358,7 @@ Parcours : `Accueil → Hébergement → DetailChambre → Reservation → Paiem
 
 ---
 
-## 10. Démarrage
+## 10. Démarrage & déploiement
 
 ### Pré-requis
 
@@ -295,7 +390,24 @@ npm install
 npm run dev               # http://localhost:5173
 ```
 
-Variable `.env` (front) : `VITE_API_URL` (ex. `http://localhost:3000/api`)
+Variables `.env` (front) :
+- `VITE_API_URL` — base de l'API (ex. `http://localhost:3000/api`)
+- `VITE_CLOUDINARY_CLOUD` — *cloud name* Cloudinary servant les images (repli `dsepfzneu` si absent)
+
+### Déploiement (production)
+
+Les deux services et les médias sont hébergés séparément :
+
+| Brique        | Hébergeur                          | Notes                                                                 |
+| ------------- | ---------------------------------- | --------------------------------------------------------------------- |
+| Front (SPA)   | **Vercel** (CDN edge)              | build Vite ; `vercel.json` réécrit toutes les routes vers `index.html` (React Router) |
+| API + base    | **AlwaysData** (site Node.js)      | serveur Express persistant + MySQL **sur le même hôte** (UE / RGPD)    |
+| Images        | **Cloudinary**                     | `public_id` = chemin `imsouane/<dossier>/<fichier>`, livraison `f_auto,q_auto` |
+
+**Images Cloudinary.** Les photos réelles sont optimisées (bord long ≤ 3000 px, JPEG q88) puis uploadées en imposant le `public_id` = chemin exact, de sorte que les URLs en base (`photo.url`) et le front (`Accueil.jsx`) restent stables. `f_auto,q_auto` = format moderne (WebP/AVIF) et compression servis automatiquement selon le navigateur.
+
+**CORS.** En prod, `CORS_ORIGIN` liste les origines autorisées séparées par virgule (ex. `http://localhost:5173,https://imsouane-surf-paradise.vercel.app`) ; le front Vercel appelle l'API via `VITE_API_URL=https://maxime-garin.alwaysdata.net/api`.
+
 
 ### Scripts utiles
 
