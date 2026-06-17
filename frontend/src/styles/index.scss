@@ -1,13 +1,38 @@
 // =============================================================================
 //  index.scss — Styles GLOBAUX (importés une seule fois dans main.jsx).
-//  Contient : import des polices, reset léger, styles de base du <body>.
+//  Contient : déclaration des polices, reset léger, styles de base du <body>.
 //  Le style SPÉCIFIQUE à un composant ira dans son propre .module.scss.
 // =============================================================================
 
 @use 'variables' as *;   // importe les variables ($terracotta, $font-titre...)
 
-// --- Polices Google Fonts ---------------------------------------------------
-@import url('https://fonts.googleapis.com/css2?family=Young+Serif&family=Inter:wght@300;400;500;600&display=swap');
+// --- Polices self-hostées (woff2, zéro dépendance CDN) ----------------------
+// Young Serif (titres, 1 graisse) + Inter (corps : 300/400/500/600).
+@font-face {
+  font-family: 'Young Serif';
+  src: url('../assets/fonts/YoungSerif-Regular.woff2') format('woff2');
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Inter';
+  src: url('../assets/fonts/Inter-Light.woff2') format('woff2');
+  font-weight: 300; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Inter';
+  src: url('../assets/fonts/Inter-Regular.woff2') format('woff2');
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Inter';
+  src: url('../assets/fonts/Inter-Medium.woff2') format('woff2');
+  font-weight: 500; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Inter';
+  src: url('../assets/fonts/Inter-SemiBold.woff2') format('woff2');
+  font-weight: 600; font-style: normal; font-display: swap;
+}
 
 // --- Reset léger ------------------------------------------------------------
 // Remet les marges/paddings à zéro et rend le box-model prévisible.
