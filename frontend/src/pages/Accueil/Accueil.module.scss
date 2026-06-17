@@ -515,8 +515,13 @@
   @media (max-width: 820px) {
     grid-template-columns: 1fr;
     gap: $espace-lg;
+    padding: $espace-lg $espace-md;   // padding mobile resserré -> plus d'air pour le texte
   }
 }
+
+// colonnes autorisées à rétrécir sous la largeur de leur contenu (anti-overflow)
+.refugeTexte,
+.refugeVisuel { min-width: 0; }
 
 .refugeTexte { align-self: center; }
 
@@ -633,4 +638,11 @@
   letter-spacing: 0.05em;
   transition: background-color $transition-douce, transform $transition-douce;
   &:hover { background: $terracotta-fonce; color: $blanc-pur; transform: translateY(-2px); }
+
+  // mobile : bouton pleine largeur + padding raisonnable -> plus d'overflow ni de pill déformée
+  @media (max-width: 820px) {
+    display: block;
+    text-align: center;
+    padding: $espace-sm $espace-md;
+  }
 }
