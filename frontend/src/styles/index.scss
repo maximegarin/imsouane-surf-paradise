@@ -6,31 +6,31 @@
 
 @use 'variables' as *;   // importe les variables ($terracotta, $font-titre...)
 
-// --- Polices self-hostées (woff2, zéro dépendance CDN) ----------------------
+// --- Polices self-hostées (woff2 dans /public/fonts, zéro dépendance CDN) ----
 // Young Serif (titres, 1 graisse) + Inter (corps : 300/400/500/600).
 @font-face {
   font-family: 'Young Serif';
-  src: url('../assets/fonts/YoungSerif-Regular.woff2') format('woff2');
+  src: url('/fonts/YoungSerif-Regular.woff2') format('woff2');
   font-weight: 400; font-style: normal; font-display: swap;
 }
 @font-face {
   font-family: 'Inter';
-  src: url('../assets/fonts/Inter-Light.woff2') format('woff2');
+  src: url('/fonts/Inter-Light.woff2') format('woff2');
   font-weight: 300; font-style: normal; font-display: swap;
 }
 @font-face {
   font-family: 'Inter';
-  src: url('../assets/fonts/Inter-Regular.woff2') format('woff2');
+  src: url('/fonts/Inter-Regular.woff2') format('woff2');
   font-weight: 400; font-style: normal; font-display: swap;
 }
 @font-face {
   font-family: 'Inter';
-  src: url('../assets/fonts/Inter-Medium.woff2') format('woff2');
+  src: url('/fonts/Inter-Medium.woff2') format('woff2');
   font-weight: 500; font-style: normal; font-display: swap;
 }
 @font-face {
   font-family: 'Inter';
-  src: url('../assets/fonts/Inter-SemiBold.woff2') format('woff2');
+  src: url('/fonts/Inter-SemiBold.woff2') format('woff2');
   font-weight: 600; font-style: normal; font-display: swap;
 }
 
